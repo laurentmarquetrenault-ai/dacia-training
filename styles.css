@@ -1,6 +1,16 @@
-#avatar{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  border-radius:14px;
+#avatar {
+  width: 100%;
+  height: 220px; /* ajuste ici */
+  border-radius: 12px;
+  overflow: hidden;
+  background: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 🔥 LA CLÉ */
 }
