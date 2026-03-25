@@ -131,9 +131,10 @@ async function send() {
       content: reply
     });
 
-    updateTrustFromReply(reply);
-    updateAvatarFromReply(reply);
+   updateTrust(reply);
+updateAvatar();
 
+  
     if (mode === "eval") {
       detectEnd(reply);
     }
