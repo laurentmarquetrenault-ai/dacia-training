@@ -55,19 +55,23 @@ function resetDemo() {
   messages = [];
   trust = 50;
   finished = false;
+
   chat.innerHTML = `<div class="chat-empty" id="chatEmpty">
     Lance l’échange avec une première phrase vendeur.<br />
     En mode démo, tu peux sortir quand tu veux. En mode évaluation, la cliente devra conclure.
   </div>`;
+
   input.disabled = false;
   input.value = "";
   endMessage.classList.add("hidden");
+
   resetTrustUI();
   updateAvatar();
 }
 
 function toggleHelp() {
-  document.getElementById("helpBox").classList.toggle("hidden");
+  const helpBox = document.getElementById("helpBox");
+  if (helpBox) helpBox.classList.toggle("hidden");
 }
 
 function updateTrustFromSellerMessage(text) {
@@ -105,11 +109,25 @@ function detectEnd(reply) {
   const t = reply.toLowerCase();
 
   const accepted = [
-    "d'accord", "ok", "allons-y", "ça me va", "on le met en place"
+    "d'accord",
+    "ok",
+    "allons-y",
+    "ça me va",
+    "on le met en place",
+    "pourquoi pas"
   ];
 
   const refused = [
-    "non merci", "je préfère sans", "je vais en rester là"
+    "non merci",
+    "je préfère sans",
+    "je vais en rester là",
+    "je vais voir ailleurs",
+    "je vais repasser plus tard",
+    "merci quand même",
+    "je peux attendre",
+    "je vais réfléchir",
+    "pas intéressée",
+    "pas convaincue"
   ];
 
   if (
@@ -169,9 +187,7 @@ async function send() {
       content: reply
     });
 
-    if (modeSelect.value === "eval") {
-      detectEnd(reply);
-    }
+    detectEnd(reply);
   } catch (err) {
     console.error(err);
     display("Erreur réseau ou serveur.", "client");
@@ -179,8 +195,6 @@ async function send() {
 }
 
 function finishDemo() {
-  if (modeSelect.value !== "demo") return;
-
   finished = true;
   input.disabled = true;
   endMessage.classList.remove("hidden");
@@ -210,6 +224,7 @@ async function evaluate() {
       return;
     }
 
+    endMessage.classList.add("hidden");
     display(data.choices[0].message.content, "coach");
   } catch (err) {
     console.error(err);
