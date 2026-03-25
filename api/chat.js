@@ -56,7 +56,6 @@ FORMAT :
 OBJECTIF :
 Simuler une cliente crédible en atelier.
 `;
-`;
 
   try {
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
