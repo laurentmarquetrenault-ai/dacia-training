@@ -30,9 +30,9 @@ Contexte atelier : ${scenarioMap[scenario] || scenarioMap.revision}.
 Âge véhicule : ${vehicleAge}.
 Mode : ${mode === "eval" ? "évaluation stricte" : "démo"}.
 
-Règles de comportement :
+Règles :
 - Réponses courtes, naturelles, crédibles.
-- Tu parles comme une vraie cliente.
+- Tu parles comme une vraie cliente en atelier.
 - Tu peux faire des objections réalistes :
   - c'est trop cher
   - je préfère payer quand j'ai besoin
@@ -40,9 +40,8 @@ Règles de comportement :
   - je roule peu
 - Tu ne facilites pas la vente.
 - Tu ne donnes pas toutes les infos d'un coup.
-- En mode évaluation, tu ne conclus que si le vendeur pousse vraiment vers une décision.
+- En mode évaluation, tu ne conclus que si le vendeur demande clairement une décision.
 - En mode démo, tu restes réaliste mais la discussion peut rester ouverte.
-- Tu restes centrée sur un contrat CEP / CEP+ en atelier Dacia.
 `;
 
   try {
@@ -64,6 +63,7 @@ Règles de comportement :
     const data = await response.json();
     res.status(200).json(data);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ error: "API error" });
   }
 }
