@@ -1,53 +1,182 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Dacia Training V7</title>
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulation Atelier Dacia</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-
 <body>
-
-<h1>Simulation Atelier Dacia</h1>
-
-<div class="container">
-
-  <!-- CLIENT -->
-  <div class="left">
-    <h3>Cliente</h3>
-
-    <img id="avatar" src="/images/neutral.jpg">
-
-    <div id="trust-bar">
-      <div id="trust"></div>
+  <div class="app">
+    <div class="topbar">
+      <div class="title-wrap">
+        <h1>Simulation Atelier Dacia</h1>
+        <p>Entraînement commercial CEP / CEP+ avec mode démo et mode évaluation.</p>
+      </div>
+      <div class="badge">Version V7 — base premium</div>
     </div>
 
-    <p id="trustText">50%</p>
+    <div class="layout">
+      <!-- CLIENTE -->
+      <section class="panel">
+        <div class="panel-inner">
+          <div class="panel-title">
+            <h2>Cliente</h2>
+            <span class="sub">Réaction en direct</span>
+          </div>
+
+          <div class="client-card">
+            <div class="avatar-box">
+              <img id="avatar" src="/images/neutral.jpg" alt="Cliente" />
+            </div>
+
+            <div>
+              <div class="trust-label">
+                <span>Niveau de confiance</span>
+                <span id="trustText">50%</span>
+              </div>
+              <div class="trust-shell">
+                <div id="trust"></div>
+              </div>
+            </div>
+
+            <div class="chips">
+              <span class="chip">Proposition spontanée</span>
+              <span class="chip">Valeur client</span>
+              <span class="chip">Objections</span>
+              <span class="chip">Closing</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SIMULATION -->
+      <section class="panel">
+        <div class="panel-inner">
+          <div class="panel-title">
+            <h2>Simulation</h2>
+            <span class="sub">Atelier Dacia</span>
+          </div>
+
+          <div class="sim-header">
+            <div class="field">
+              <label for="mode">Mode</label>
+              <select id="mode">
+                <option value="demo">Mode Démo</option>
+                <option value="eval">Mode Évaluation</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="profil">Profil client</label>
+              <select id="profil">
+                <option value="hesitant">Hésitant</option>
+                <option value="mefiant">Méfiant</option>
+                <option value="prix">Orienté prix</option>
+                <option value="sceptique">Sceptique</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="scenario">Scénario atelier</label>
+              <select id="scenario">
+                <option value="revision">Révision</option>
+                <option value="facture">Facture élevée</option>
+                <option value="fin-garantie">Fin garantie</option>
+                <option value="usure">Usure</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="vehicleAge">Âge véhicule</label>
+              <select id="vehicleAge">
+                <option value="1 an">1 an</option>
+                <option value="2 ans">2 ans</option>
+                <option value="3 ans">3 ans</option>
+                <option value="4 ans">4 ans</option>
+                <option value="5 ans">5 ans</option>
+                <option value="6 ans">6 ans</option>
+                <option value="7 ans">7 ans</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="chat">
+            <div class="chat-empty" id="chatEmpty">
+              Lance l’échange avec une première phrase vendeur.<br />
+              En mode démo, tu peux sortir quand tu veux. En mode évaluation, la cliente devra conclure.
+            </div>
+          </div>
+
+          <div class="chat-footer">
+            <input id="input" placeholder="Votre réponse..." />
+            <button class="btn btn-primary" id="sendBtn" onclick="send()">Envoyer</button>
+            <button class="btn btn-secondary" id="finishDemoBtn" onclick="finishDemo()">Terminer démo</button>
+            <button class="btn btn-secondary" id="newDemoBtn" onclick="resetDemo()">Nouvelle démo</button>
+          </div>
+
+          <div id="endMessage" class="hidden">
+            <h3>Fin de simulation</h3>
+            <div class="sub" style="margin-bottom:10px;">
+              La discussion est terminée. Lance maintenant l’évaluation.
+            </div>
+            <button class="btn btn-primary" onclick="evaluate()">Voir évaluation</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- AIDE -->
+      <section class="panel">
+        <div class="panel-inner">
+          <div class="help-head">
+            <div>
+              <h2 style="margin:0 0 4px;">Aide vendeur</h2>
+              <div class="sub">Pense-bête discret</div>
+            </div>
+            <span class="mini-tag">CEP / CEP+</span>
+          </div>
+
+          <button class="btn btn-secondary" onclick="toggleHelp()">Afficher aide</button>
+
+          <div id="helpBox" class="hidden">
+            <div class="help-section">
+              <h4>Tarifs repères</h4>
+              <div class="price-grid">
+                <div class="price-card">
+                  <div class="name">CEP</div>
+                  <div class="value" id="cepPrice">39€</div>
+                </div>
+                <div class="price-card">
+                  <div class="name">CEP+</div>
+                  <div class="value" id="ceppPrice">69€</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="help-section">
+              <h4>Angle conseillé</h4>
+              <ul class="help-list">
+                <li>Budget maîtrisé pendant 48 mois</li>
+                <li>Assistance 24/7</li>
+                <li>Extension de garantie si activable</li>
+                <li>CEP+ à pousser si usure / grosse facture</li>
+              </ul>
+            </div>
+
+            <div class="help-section">
+              <h4>Rappel closing</h4>
+              <ul class="help-list">
+                <li>Faire une proposition claire</li>
+                <li>Demander une décision</li>
+                <li>En évaluation : pas de note sans accord/refus</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
   </div>
 
-  <!-- CHAT -->
-  <div class="center">
-    <h3>Simulation</h3>
-
-    <div id="chat"></div>
-
-    <input id="input" placeholder="Votre réponse...">
-    
-    <div class="buttons">
-      <button onclick="send()">Envoyer</button>
-      <button onclick="finishDemo()">Terminer démo</button>
-      <button onclick="resetDemo()">Nouvelle démo</button>
-    </div>
-
-    <div id="endMessage" class="hidden">
-      <h3>Fin de simulation</h3>
-      <button onclick="evaluate()">Voir évaluation</button>
-    </div>
-
-  </div>
-
-</div>
-
-<script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
