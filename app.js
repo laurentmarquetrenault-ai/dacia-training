@@ -37,59 +37,37 @@ function display(text, role = "client") {
   chat.scrollTop = chat.scrollHeight;
 }
 
-function updateTrustFromReply(text) {
-  const t = text.toLowerCase();
+function updateTrust(text){
+  text = text.toLowerCase();
 
-  if (
-    t.includes("d'accord") ||
-    t.includes("ok") ||
-    t.includes("pourquoi pas") ||
-    t.includes("je vois") ||
-    t.includes("ça me rassure")
-  ) {
-    trust = Math.min(100, trust + 10);
-  } else if (
-    t.includes("non merci") ||
-    t.includes("trop cher") ||
-    t.includes("pas convain") ||
-    t.includes("je préfère") ||
-    t.includes("pas sûre")
-  ) {
-    trust = Math.max(0, trust - 10);
-  } else {
-    trust = Math.max(0, Math.min(100, trust - 2));
+  if(text.includes("prix") || text.includes("expliquer") || text.includes("proposer")){
+    trust += 10; // bon vendeur
   }
+  else if(text.includes("non") || text.includes("plus tard") || text.includes("pas maintenant")){
+    trust -= 15; // mauvais vendeur
+  }
+  else{
+    trust -= 5; // neutre mais pas engageant
+  }
+
+  if(trust > 100) trust = 100;
+  if(trust < 0) trust = 0;
 
   trustBar.style.width = trust + "%";
-  trustText.textContent = trust + "%";
 }
 
-function updateAvatarFromReply(text) {
-  const t = text.toLowerCase();
+function updateAvatar(){
+  const img = document.querySelector("#avatar img");
 
-  if (
-    t.includes("non merci") ||
-    t.includes("pas intéress") ||
-    t.includes("pas convain") ||
-    t.includes("trop cher") ||
-    t.includes("je préfère")
-  ) {
-    avatar.src = "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?q=80&w=400";
-    return;
+  if(trust > 70){
+    img.src = "https://randomuser.me/api/portraits/women/44.jpg"; // très contente
   }
-
-  if (
-    t.includes("d'accord") ||
-    t.includes("ok") ||
-    t.includes("pourquoi pas") ||
-    t.includes("ça me va") ||
-    t.includes("allons-y")
-  ) {
-    avatar.src = "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400";
-    return;
+  else if(trust > 40){
+    img.src = "https://randomuser.me/api/portraits/women/45.jpg"; // neutre
   }
-
-  setAvatarByProfile();
+  else{
+    img.src = "https://randomuser.me/api/portraits/women/46.jpg"; // pas contente
+  }
 }
 
 function detectEnd(text) {
