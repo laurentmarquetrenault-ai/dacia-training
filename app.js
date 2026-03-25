@@ -47,11 +47,17 @@ function updateTrust(text){
   }
   trustBar.style.width = trust+"%";
 }
-
+const avatar = document.getElementById("avatar");
 function updateAvatar(text){
-  if(text.includes("oui")) avatar.innerHTML = "🙂";
-  else if(text.includes("non")) avatar.innerHTML = "😒";
-  else avatar.innerHTML = "😐";
+  if(text.includes("oui")){
+    avatar.src = "https://images.unsplash.com/photo-1494790108377-be9c29b29330";
+  }
+  else if(text.includes("non")){
+    avatar.src = "https://images.unsplash.com/photo-1502685104226-ee32379fefbe";
+  }
+  else{
+    avatar.src = "https://images.unsplash.com/photo-1544005313-94ddf0286df2";
+  }
 }
 
 function detectEnd(text){
@@ -82,3 +88,14 @@ async function evaluate(){
 function toggleHelp(){
   document.getElementById("helpBox").classList.toggle("hidden");
 }
+const avatars = {
+  hesitant: "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+  presse: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e",
+  mefiant: "https://images.unsplash.com/photo-1502685104226-ee32379fefbe",
+  convaincu: "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+};
+
+document.getElementById("profil").addEventListener("change", function(e){
+  const value = e.target.value;
+  document.getElementById("avatar").src = avatars[value];
+});
