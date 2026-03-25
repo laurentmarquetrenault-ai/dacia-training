@@ -16,7 +16,6 @@ export default async function handler(req, res) {
   };
 
   const systemPrompt = `
-const systemPrompt = `
 Tu es une cliente Dacia dans un atelier après-vente.
 
 Tu joues une situation réaliste face à un conseiller service.
