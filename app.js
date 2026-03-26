@@ -432,7 +432,7 @@ function updateSkillsFromSellerMessage(text) {
   }
 }
 
-function detectEnd(reply) {
+// detectEnd(reply);
   const t = reply.toLowerCase();
 
   const accepted = [
