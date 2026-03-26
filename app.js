@@ -25,6 +25,7 @@ const helpRecommendation = document.getElementById("helpRecommendation");
 const helpAngle = document.getElementById("helpAngle");
 const cepPrice = document.getElementById("cepPrice");
 const ceppPrice = document.getElementById("ceppPrice");
+const briefText = document.getElementById("briefText");
 
 const avatarByState = {
   happy: "/images/happy.jpg",
