@@ -10,8 +10,14 @@
   --radius:18px;
 }
 
-*{box-sizing:border-box}
-html,body{height:100%}
+*{
+  box-sizing:border-box;
+}
+
+html,
+body{
+  height:100%;
+}
 
 body{
   margin:0;
@@ -157,7 +163,7 @@ body{
 
 .sim-header{
   display:grid;
-  grid-template-columns:repeat(4, minmax(0,1fr));
+  grid-template-columns:repeat(5, minmax(0, 1fr));
   gap:10px;
   margin-bottom:14px;
 }
@@ -166,6 +172,7 @@ body{
   display:flex;
   flex-direction:column;
   gap:6px;
+  min-width:0;
 }
 
 .field label{
@@ -173,11 +180,14 @@ body{
   color:var(--muted);
 }
 
-select, input, button{
+select,
+input,
+button{
   font:inherit;
 }
 
-select, input{
+select,
+input{
   width:100%;
   height:42px;
   border-radius:12px;
@@ -186,6 +196,12 @@ select, input{
   color:var(--text);
   padding:0 12px;
   outline:none;
+}
+
+select:focus,
+input:focus{
+  border-color:rgba(255,212,121,.45);
+  box-shadow:0 0 0 3px rgba(255,184,77,.08);
 }
 
 #chat{
@@ -204,6 +220,7 @@ select, input{
   border-radius:16px;
   line-height:1.45;
   white-space:pre-wrap;
+  word-break:break-word;
 }
 
 .bubble .role{
@@ -255,6 +272,17 @@ select, input{
   border:none;
   border-radius:12px;
   cursor:pointer;
+  transition:transform .12s ease, opacity .12s ease, box-shadow .12s ease;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
 }
 
 .btn-primary{
@@ -311,6 +339,10 @@ select, input{
   margin-bottom:14px;
 }
 
+.help-section:last-child{
+  margin-bottom:0;
+}
+
 .help-section h4{
   margin:0 0 8px;
   font-size:13px;
@@ -357,50 +389,98 @@ select, input{
   display:none !important;
 }
 
-@media (max-width:1180px){
-  .layout{ grid-template-columns:1fr; }
-  .sim-header{ grid-template-columns:1fr 1fr; }
-  #chat{ height:420px; }
+/* étoiles compétences */
+
+.skills-box{
+  margin-top:16px;
 }
 
-@media (max-width:700px){
-  .sim-header{ grid-template-columns:1fr; }
-  .chat-footer{ grid-template-columns:1fr; }
-}
-.skills-box {
-  margin-top: 16px;
+.skills-title{
+  font-size:14px;
+  margin-bottom:10px;
+  opacity:.85;
 }
 
-.skills-title {
-  font-size: 14px;
-  margin-bottom: 10px;
-  opacity: 0.85;
+.skills-row{
+  display:grid;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  gap:10px;
 }
 
-.skills-row {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+.skill-star{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  min-height:72px;
+  padding:8px 4px;
+  border-radius:12px;
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.05);
+  font-size:24px;
+  opacity:.28;
+  transition:all .2s ease;
+  user-select:none;
+  text-align:center;
 }
 
-.skill-star {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-size: 24px;
-  opacity: 0.25;
-  transition: all 0.2s ease;
-  user-select: none;
+.skill-star span{
+  font-size:11px;
+  line-height:1.15;
+  opacity:.92;
 }
 
-.skill-star span {
-  font-size: 11px;
-  opacity: 0.9;
+.skill-star.active{
+  opacity:1;
+  transform:scale(1.04);
+  border-color:rgba(255,212,121,.3);
+  background:linear-gradient(180deg, rgba(255,212,121,.09), rgba(255,184,77,.04));
+  text-shadow:0 0 10px rgba(255,215,0,.55);
+  box-shadow:0 0 16px rgba(255,184,77,.08);
 }
 
-.skill-star.active {
-  opacity: 1;
-  transform: scale(1.06);
-  text-shadow: 0 0 10px rgba(255, 215, 0, 0.55);
+/* responsive */
+
+@media (max-width: 1320px){
+  .layout{
+    grid-template-columns:280px 1fr 280px;
+  }
+
+  .sim-header{
+    grid-template-columns:repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 1180px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+
+  .sim-header{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
+
+  #chat{
+    height:420px;
+  }
+}
+
+@media (max-width: 700px){
+  .topbar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .sim-header{
+    grid-template-columns:1fr;
+  }
+
+  .chat-footer{
+    grid-template-columns:1fr;
+  }
+
+  .skills-row{
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+  }
 }
