@@ -101,7 +101,38 @@ function updateAvatar() {
     avatar.src = avatarByState.angry;
   }
 }
+function generateBrief() {
+  const scenario = scenarioSelect.value;
+  const age = vehicleAgeSelect.value;
 
+  let text = "";
+
+  if (scenario === "revision") {
+    text = `Vous attendez Madame Dubois pour une révision.
+Son véhicule (${age}) est éligible au Contrat Entretien Privilèges.
+À vous de mener l’échange et proposer la solution adaptée.`;
+  }
+
+  if (scenario === "facture") {
+    text = `Vous recevez une cliente après une facture atelier élevée.
+Son véhicule (${age}) est éligible au contrat d’entretien.
+À vous de sécuriser votre argumentation.`;
+  }
+
+  if (scenario === "fin-garantie") {
+    text = `Vous recevez une cliente dont le véhicule arrive en fin de garantie.
+Son véhicule (${age}) est éligible à une protection.
+À vous de jouer.`;
+  }
+
+  if (scenario === "usure") {
+    text = `Vous recevez une cliente pour un sujet d’usure.
+Son véhicule (${age}) est éligible au contrat d’entretien.
+À vous d’amener la bonne couverture.`;
+  }
+
+  briefText.innerHTML = text.replace(/\n/g, "<br>");
+}
 function getAgeNumber() {
   const raw = vehicleAgeSelect.value || "1 an";
   const match = raw.match(/\d+/);
