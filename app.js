@@ -126,13 +126,13 @@ function updateHelpPrices() {
   const age = getAgeNumber();
 
   let reco = "CEP si client surtout sensible à l’entretien, CEP+ si besoin de couverture plus large.";
-  let angle = "Budget maîtrisé, assistance 24/7, entretien dans le réseau, revente facilitée.";
+  let angle = "Budget maîtrisé pendant 48 mois, assistance 24/7, entretien dans le réseau, revente facilitée.";
 
   if (scenario === "usure" || scenario === "facture") {
-    reco = "CEP+ recommandé : scénario usure / facture élevée, donc la couverture renforcée a plus de sens.";
+    reco = "CEP+ recommandé : scénario usure ou facture élevée, la couverture renforcée a plus de sens.";
     angle = "Mets l’accent sur les pièces d’usure, la tranquillité et l’évitement des grosses factures imprévues.";
   } else if (scenario === "fin-garantie" && age >= 3 && age <= 7) {
-    reco = "Pense à valoriser la prolongation de protection via Dacia Zen si conditions réunies.";
+    reco = "Pense à valoriser la protection prolongée et l’intérêt de sécuriser le véhicule à la fin de la garantie constructeur.";
     angle = "Question utile : Et si votre garantie pouvait aller jusqu’à 7 ans ?";
   }
 
@@ -218,7 +218,8 @@ function updateTrustFromSellerMessage(text) {
     "révision", "entretien", "usure", "tranquille", "tranquillité",
     "revente", "protéger", "éviter", "facture", "cep", "cep+",
     "vous roulez", "quel usage", "kilométr", "devis", "couverture",
-    "pièces d'usure", "valeur de revente", "réseau", "dacia zen"
+    "pièces d'usure", "valeur de revente", "réseau", "dacia zen",
+    "véhicule de remplacement", "hors garantie"
   ];
 
   const badSignals = [
@@ -264,10 +265,12 @@ function sellerLooksLikeDiscovery(text) {
     "combien de temps",
     "vous comptez la garder",
     "qu'est-ce qui vous freine",
-    "qu'est-ce qui vous fait hésiter"
+    "qu'est-ce qui vous fait hésiter",
+    "immatriculation",
+    "quelle utilisation"
   ];
 
-  return questions.some((q) => t.includes(q)) || (t.includes("?") && /(kilométr|usage|gardez|roulez|hésitez)/.test(t));
+  return questions.some((q) => t.includes(q)) || (t.includes("?") && /(kilométr|usage|gardez|roulez|hésitez|immat)/.test(t));
 }
 
 function sellerLooksLikeArgumentation(text) {
@@ -289,7 +292,9 @@ function sellerLooksLikeArgumentation(text) {
     "couverture",
     "pièces d'usure",
     "éviter une grosse facture",
-    "véhicule de remplacement"
+    "véhicule de remplacement",
+    "hors garantie",
+    "extension de garantie"
   ];
 
   return argumentsList.some((item) => t.includes(item));
@@ -333,7 +338,9 @@ function sellerLooksLikeObjectionHandling(text) {
     "valeur de revente",
     "tout est couvert",
     "tranquillité",
-    "vous protéger"
+    "vous protéger",
+    "révision déjà faite",
+    "pas seulement aux kilomètres"
   ];
 
   return reassuringTerms.some((item) => t.includes(item));
@@ -354,7 +361,9 @@ function sellerLooksLikeClosing(text) {
     "on valide",
     "on lance",
     "on souscrit",
-    "on l'ajoute"
+    "on l'ajoute",
+    "on fait le contrat",
+    "je peux vous l'intégrer"
   ];
 
   return closingTerms.some((item) => t.includes(item));
