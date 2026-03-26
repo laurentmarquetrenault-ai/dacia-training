@@ -18,6 +18,7 @@ const endMessage = document.getElementById("endMessage");
 const sendBtn = document.getElementById("sendBtn");
 const finishBtn = document.getElementById("finishDemoBtn");
 const newBtn = document.getElementById("newDemoBtn");
+const evalBtn = document.getElementById("evalBtn");
 const endTitle = document.getElementById("endTitle");
 const endSubtitle = document.getElementById("endSubtitle");
 const modeBadge = document.getElementById("modeBadge");
@@ -26,8 +27,7 @@ const helpAngle = document.getElementById("helpAngle");
 const cepPrice = document.getElementById("cepPrice");
 const ceppPrice = document.getElementById("ceppPrice");
 const briefText = document.getElementById("briefText");
-const endMessage = document.getElementById("endMessage");
-const sendBtn = document.getElementById("sendBtn");
+const toggleHelpBtn = document.getElementById("toggleHelpBtn");
 
 const avatarByState = {
   happy: "/images/happy.jpg",
@@ -73,9 +73,6 @@ function escapeHtml(text) {
 }
 
 function display(text, role = "client") {
-  const empty = document.getElementById("chatEmpty");
-  if (empty) empty.style.display = "none";
-
   const bubble = document.createElement("div");
   bubble.className = `bubble ${role}`;
 
@@ -103,38 +100,7 @@ function updateAvatar() {
     avatar.src = avatarByState.angry;
   }
 }
-function generateBrief() {
-  const scenario = scenarioSelect.value;
-  const age = vehicleAgeSelect.value;
 
-  let text = "";
-
-  if (scenario === "revision") {
-    text = `Vous attendez Madame Dubois pour une révision.
-Son véhicule (${age}) est éligible au Contrat Entretien Privilèges.
-À vous de mener l’échange et proposer la solution adaptée.`;
-  }
-
-  if (scenario === "facture") {
-    text = `Vous recevez une cliente après une facture atelier élevée.
-Son véhicule (${age}) est éligible au contrat d’entretien.
-À vous de sécuriser votre argumentation.`;
-  }
-
-  if (scenario === "fin-garantie") {
-    text = `Vous recevez une cliente dont le véhicule arrive en fin de garantie.
-Son véhicule (${age}) est éligible à une protection.
-À vous de jouer.`;
-  }
-
-  if (scenario === "usure") {
-    text = `Vous recevez une cliente pour un sujet d’usure.
-Son véhicule (${age}) est éligible au contrat d’entretien.
-À vous d’amener la bonne couverture.`;
-  }
-
-  briefText.innerHTML = text.replace(/\n/g, "<br>");
-}
 function getAgeNumber() {
   const raw = vehicleAgeSelect.value || "1 an";
   const match = raw.match(/\d+/);
@@ -211,6 +177,35 @@ function setSkill(key) {
   }
 }
 
+function generateBrief() {
+  const scenario = scenarioSelect.value;
+  const age = vehicleAgeSelect.value;
+  const mode = modeSelect.value;
+  const isEval = mode === "eval";
+
+  let text = "";
+
+  if (scenario === "revision") {
+    text = `Vous attendez Madame Dubois pour une révision.
+Son véhicule (${age}) est éligible au Contrat Entretien Privilèges.
+${isEval ? "Votre objectif est de mener un échange complet et structuré." : "À vous de mener l’échange et de proposer la solution adaptée."}`;
+  } else if (scenario === "facture") {
+    text = `Vous recevez une cliente après une facture atelier élevée.
+Son véhicule (${age}) est éligible au contrat d’entretien.
+${isEval ? "Vous serez évalué sur votre capacité à rassurer et argumenter." : "À vous de sécuriser votre argumentation."}`;
+  } else if (scenario === "fin-garantie") {
+    text = `Vous recevez une cliente dont le véhicule arrive en fin de garantie.
+Son véhicule (${age}) est éligible à une solution de protection.
+${isEval ? "Vous serez évalué sur la découverte, l’argumentation et la conclusion." : "À vous de jouer."}`;
+  } else if (scenario === "usure") {
+    text = `Vous recevez une cliente pour un sujet d’usure.
+Son véhicule (${age}) est éligible au contrat d’entretien.
+${isEval ? "Vous serez évalué sur la pertinence de votre recommandation." : "À vous d’amener la bonne couverture."}`;
+  }
+
+  briefText.innerHTML = text.replace(/\n/g, "<br>");
+}
+
 function resetDemo() {
   messages = [];
   trust = 50;
@@ -219,18 +214,17 @@ function resetDemo() {
   lastClientReply = "";
 
   chat.innerHTML = "";
-generateBrief();
+  generateBrief();
 
-const firstMessage = "Bonjour";
+  const firstMessage = "Bonjour";
+  display(firstMessage, "client");
 
-display(firstMessage, "client");
+  messages.push({
+    role: "assistant",
+    content: firstMessage
+  });
 
-messages.push({
-  role: "assistant",
-  content: firstMessage
-});
-
-lastClientReply = firstMessage;
+  lastClientReply = firstMessage;
 
   input.disabled = false;
   sendBtn.disabled = false;
@@ -262,7 +256,7 @@ function updateTrustFromSellerMessage(text) {
     "revente", "protéger", "éviter", "facture", "cep", "cep+",
     "vous roulez", "quel usage", "kilométr", "devis", "couverture",
     "pièces d'usure", "valeur de revente", "réseau", "dacia zen",
-    "véhicule de remplacement", "hors garantie"
+    "véhicule de remplacement", "hors garantie", "extension de garantie"
   ];
 
   const badSignals = [
@@ -291,12 +285,12 @@ function sellerLooksLikeWelcome(text) {
   const t = text.toLowerCase();
   const greeting = /(bonjour|bonsoir|madame|monsieur|bienvenue)/.test(t);
   const context = /(rendez[- ]?vous|révision|atelier|véhicule|voiture|entretien)/.test(t);
-  return greeting || (greeting && context);
+  return greeting && context;
 }
 
 function sellerLooksLikeDiscovery(text) {
   const t = text.toLowerCase();
-  const questions = [
+  const discoverySignals = [
     "combien de kilomètres",
     "kilométr",
     "vous roulez",
@@ -313,34 +307,29 @@ function sellerLooksLikeDiscovery(text) {
     "quelle utilisation"
   ];
 
-  return questions.some((q) => t.includes(q)) || (t.includes("?") && /(kilométr|usage|gardez|roulez|hésitez|immat)/.test(t));
+  return discoverySignals.some((q) => t.includes(q));
 }
 
 function sellerLooksLikeArgumentation(text) {
   const t = text.toLowerCase();
-  const argumentsList = [
+
+  const mentionProduct = t.includes("cep") || t.includes("cep+") || t.includes("contrat entretien") || t.includes("contrat d'entretien");
+  const mentionBenefit = [
     "budget maîtrisé",
     "mensual",
-    "48 mois",
     "assistance",
     "24/24",
     "24/7",
-    "garantie",
-    "dacia zen",
     "revente",
-    "réseau",
     "tranquillité",
-    "pièces d'origine",
-    "entretien",
-    "couverture",
     "pièces d'usure",
-    "éviter une grosse facture",
-    "véhicule de remplacement",
     "hors garantie",
-    "extension de garantie"
-  ];
+    "extension de garantie",
+    "véhicule de remplacement",
+    "éviter une grosse facture"
+  ].some((item) => t.includes(item));
 
-  return argumentsList.some((item) => t.includes(item));
+  return mentionProduct && mentionBenefit;
 }
 
 function clientRaisedObjection(text) {
@@ -358,7 +347,9 @@ function clientRaisedObjection(text) {
     "ça vaut le coup",
     "je préfère attendre",
     "j'hésite",
-    "je revends"
+    "je revends",
+    "avant de m'engager",
+    "avec mon partenaire"
   ];
 
   return objectionTerms.some((item) => t.includes(item));
@@ -434,41 +425,6 @@ function updateSkillsFromSellerMessage(text) {
   }
 }
 
-// detectEnd(reply);
-  const t = reply.toLowerCase();
-
-  const accepted = [
-    "d'accord",
-    "ok",
-    "allons-y",
-    "ça me va",
-    "on le met en place",
-    "pourquoi pas",
-    "oui finalement",
-    "oui allons-y",
-    "faites-le",
-    "je prends"
-  ];
-
-  const refused = [
-    "non merci",
-    "je préfère sans",
-    "je vais en rester là",
-    "je vais voir ailleurs",
-    "je vais repasser plus tard",
-    "merci quand même",
-    "je peux attendre",
-    "je vais réfléchir",
-    "pas intéressée",
-    "pas convaincue",
-    "je ne vais pas le prendre"
-  ];
-
-  if (accepted.some((x) => t.includes(x)) || refused.some((x) => t.includes(x))) {
-    finishSession();
-  }
-}
-
 function finishSession() {
   finished = true;
   input.disabled = true;
@@ -532,8 +488,6 @@ async function send() {
       role: "assistant",
       content: reply
     });
-
-    detectEnd(reply);
   } catch (err) {
     console.error(err);
     display("Erreur réseau ou serveur.", "client");
@@ -582,18 +536,20 @@ async function evaluate() {
 }
 
 function onSettingsChange() {
-  updateModeUI();
-  updateHelpPrices();
   resetDemo();
-  generateBrief();
 }
 
 modeSelect.addEventListener("change", onSettingsChange);
-profilSelect.addEventListener("change", resetDemo);
-evalBtn.addEventListener("click", evaluate);
+profilSelect.addEventListener("change", onSettingsChange);
 scenarioSelect.addEventListener("change", onSettingsChange);
 vehicleAgeSelect.addEventListener("change", onSettingsChange);
 energyTypeSelect.addEventListener("change", onSettingsChange);
+
+sendBtn.addEventListener("click", send);
+finishBtn.addEventListener("click", finishDemo);
+newBtn.addEventListener("click", resetDemo);
+evalBtn.addEventListener("click", evaluate);
+toggleHelpBtn.addEventListener("click", toggleHelp);
 
 input.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
