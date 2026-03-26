@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -120,19 +121,19 @@
               </select>
             </div>
           </div>
-<div id="briefBox" class="brief-box">
-  <div class="brief-title">Situation client</div>
-  <div id="briefText"></div>
-</div>
-          <div id="chat">
-          
+
+          <div id="briefBox" class="brief-box">
+            <div class="brief-title">Situation client</div>
+            <div id="briefText"></div>
           </div>
+
+          <div id="chat"></div>
 
           <div class="chat-footer">
             <input id="input" placeholder="Votre réponse..." />
-            <button class="btn btn-primary" id="sendBtn" onclick="send()">Envoyer</button>
-            <button class="btn btn-secondary" id="finishDemoBtn" onclick="finishDemo()">Terminer la démo</button>
-            <button class="btn btn-secondary" id="newDemoBtn" onclick="resetDemo()">Nouvelle démo</button>
+            <button class="btn btn-primary" id="sendBtn">Envoyer</button>
+            <button class="btn btn-secondary" id="finishDemoBtn">Terminer la démo</button>
+            <button class="btn btn-secondary" id="newDemoBtn">Nouvelle démo</button>
           </div>
 
           <div id="endMessage" class="hidden">
@@ -140,7 +141,7 @@
             <div class="sub" id="endSubtitle" style="margin-bottom:10px;">
               La discussion est terminée. Lance maintenant l’évaluation.
             </div>
-           <button class="btn btn-primary" id="evalBtn">Voir évaluation</button>
+            <button class="btn btn-primary" id="evalBtn">Voir évaluation</button>
           </div>
         </div>
       </section>
@@ -155,7 +156,7 @@
             <span class="mini-tag">CEP / CEP+</span>
           </div>
 
-          <button class="btn btn-secondary" onclick="toggleHelp()">Afficher aide</button>
+          <button class="btn btn-secondary" id="toggleHelpBtn">Afficher aide</button>
 
           <div id="helpBox" class="hidden">
             <div class="help-section">
@@ -176,7 +177,7 @@
               <h4>Angle conseillé</h4>
               <ul class="help-list">
                 <li id="helpRecommendation">CEP si client surtout sensible à l’entretien, CEP+ si besoin de couverture plus large.</li>
-                <li id="helpAngle">Budget maîtrisé, assistance 24/7, entretien dans le réseau, revente facilitée.</li>
+                <li id="helpAngle">Budget maîtrisé pendant 48 mois, assistance 24/7, entretien dans le réseau, revente facilitée.</li>
               </ul>
             </div>
 
