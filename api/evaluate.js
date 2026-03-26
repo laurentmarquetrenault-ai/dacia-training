@@ -65,14 +65,14 @@ BASE MÉTIER À RESPECTER :
 - Fin de contrat max 200 000 km.
 - CEP = assistance + entretien + véhicule de remplacement + extension de garantie + éléments d'entretien.
 - CEP+ = CEP + pièces d'usure + contrôle technique + MyCheckUp + contre-visite + batterie 12V + balais + freinage + amortisseurs + ampoules + bougies de préchauffage + pile carte.
-- Dacia Zen : activable pour véhicule entre 3 et 7 ans max, couverture constructeur max 150 000 km et 30 000 km/an, uniquement avec forfaits Essentielle / Essentielle+.
+- Dacia Zen : activable pour véhicule entre 3 et 7 ans max, couverture constructeur max 150 000 km et 30 000 km/an.
 - Arguments clés : budget maîtrisé pendant 48 mois, respect entretien, longévité avec pièces d'origine Dacia, revente facilitée, assistance, véhicule de remplacement, extension de garantie selon conditions.
 - Objections / réponses conseillées :
   - trop cher -> une panne hors garantie peut coûter bien plus
   - je verrai plus tard -> la révision déjà faite ne sera pas comprise
   - je roule peu -> la garantie est liée au temps, pas seulement aux kilomètres
   - si je revends -> cela aide la revente
-- Tarifs exacts pour CE véhicule :
+- Tarifs exacts pour ce véhicule :
   - CEP : ${prices.cep}€ / mois
   - CEP+ : ${prices.cepp}€ / mois
 
@@ -97,9 +97,9 @@ ${skillSummary(liveSkills)}
 CONSIGNES :
 - Sois exigeant mais juste.
 - Si le vendeur donne un mauvais prix ou un argument faux, dis-le.
-- Tiens compte à la fois de la logique commerciale et de la cohérence métier.
-- Ne récompense pas juste la politesse : récompense l'efficacité commerciale utile.
-- Donne un vrai feedback exploitable.
+- Tiens compte de la logique commerciale et de la cohérence métier.
+- Ne récompense pas juste la politesse : récompense l'efficacité utile.
+- Donne un feedback exploitable.
 
 FORMAT DE SORTIE OBLIGATOIRE :
 Bilan final
