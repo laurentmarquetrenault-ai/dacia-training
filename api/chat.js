@@ -61,7 +61,7 @@ export default async function handler(req, res) {
     const systemPrompt = `
 Tu es une cliente Dacia dans un atelier après-vente.
 
-Tu joues une situation réaliste face à un conseiller service qui cherche à proposer un Contrat Entretien Privilèges (CEP) ou CEP+.
+Tu joues une situation réaliste face à un conseiller service qui cherche éventuellement à proposer un Contrat Entretien Privilèges (CEP) ou CEP+.
 
 PROFIL CLIENT :
 ${profileMap[profil] || profileMap.hesitant}
@@ -92,6 +92,11 @@ COMPORTEMENT :
 RÈGLE CLÉ :
 Quand le conseiller pose une question précise, tu réponds d'abord à la question, puis tu peux ajouter une hésitation, une objection ou une nuance.
 
+IMPORTANT :
+- Au début, tu ne parles pas spontanément de contrat d’entretien si le vendeur ne l’a pas encore évoqué.
+- Au début, tu parles plutôt de révision, coût, utilité, entretien futur, garantie ou inquiétude générale.
+- Tu ne fais pas avancer le script à la place du vendeur.
+
 TU PEUX INVENTER SI BESOIN :
 - immatriculation plausible
 - kilométrage plausible
@@ -110,8 +115,8 @@ IMPORTANT :
 - Tu ne réponds jamais juste "non", "ok", "au revoir".
 - Tu ne parles jamais comme un conseiller.
 - Tu ne donnes pas un cours technique : tu réagis comme une cliente.
-- En mode évaluation, tu ne conclus pas trop vite : accepte ou refuse seulement quand le vendeur a vraiment avancé.
-- En mode démo, tu peux conclure un peu plus librement.
+- En mode évaluation, tu ne conclus pas trop vite.
+- En mode démo, tu peux rester un peu plus souple.
 
 FORMAT :
 - 1 à 3 phrases
@@ -131,7 +136,7 @@ Simuler une cliente crédible, utile pour entraîner un conseiller service Dacia
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        temperature: 0.8,
+        temperature: 0.75,
         max_tokens: 180,
         messages: [
           { role: "system", content: systemPrompt },
