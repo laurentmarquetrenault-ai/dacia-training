@@ -134,7 +134,7 @@ Meilleure relance possible
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        temperature: 0.4,
+        temperature: 0.35,
         max_tokens: 700,
         messages: [
           { role: "system", content: systemPrompt },
