@@ -583,6 +583,7 @@ function onSettingsChange() {
   updateModeUI();
   updateHelpPrices();
   resetDemo();
+  generateBrief();
 }
 
 modeSelect.addEventListener("change", onSettingsChange);
