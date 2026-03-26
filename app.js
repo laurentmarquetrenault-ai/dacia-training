@@ -590,6 +590,7 @@ function onSettingsChange() {
 
 modeSelect.addEventListener("change", onSettingsChange);
 profilSelect.addEventListener("change", resetDemo);
+evalBtn.addEventListener("click", evaluate);
 scenarioSelect.addEventListener("change", onSettingsChange);
 vehicleAgeSelect.addEventListener("change", onSettingsChange);
 energyTypeSelect.addEventListener("change", onSettingsChange);
