@@ -216,10 +216,19 @@ function resetDemo() {
   evaluationShown = false;
   lastClientReply = "";
 
-  chat.innerHTML = `<div class="chat-empty" id="chatEmpty">
-    Lance l’échange avec une première phrase vendeur.<br />
-    En mode démo, tu peux sortir quand tu veux. En mode évaluation, la cliente devra conclure ou refuser clairement.
-  </div>`;
+  chat.innerHTML = "";
+generateBrief();
+
+const firstMessage = "Bonjour";
+
+display(firstMessage, "client");
+
+messages.push({
+  role: "assistant",
+  content: firstMessage
+});
+
+lastClientReply = firstMessage;
 
   input.disabled = false;
   sendBtn.disabled = false;
