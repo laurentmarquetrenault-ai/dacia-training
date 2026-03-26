@@ -13,7 +13,7 @@
         <h1>Simulation Atelier Dacia</h1>
         <p>Entraînement commercial CEP / CEP+ avec mode démo et mode évaluation.</p>
       </div>
-      <div class="badge">Version V7 — base premium</div>
+      <div class="badge" id="modeBadge">Mode Démo</div>
     </div>
 
     <div class="layout">
@@ -40,11 +40,15 @@
               </div>
             </div>
 
-            <div class="chips">
-              <span class="chip">Proposition spontanée</span>
-              <span class="chip">Valeur client</span>
-              <span class="chip">Objections</span>
-              <span class="chip">Closing</span>
+            <div class="skills-box">
+              <div class="skills-title">Blocs de compétences validés</div>
+              <div class="skills-row">
+                <div class="skill-star" id="skill-welcome" aria-checked="false">★<span>Accueil</span></div>
+                <div class="skill-star" id="skill-discovery" aria-checked="false">★<span>Découverte</span></div>
+                <div class="skill-star" id="skill-argumentation" aria-checked="false">★<span>Argumentation</span></div>
+                <div class="skill-star" id="skill-objection" aria-checked="false">★<span>Objections</span></div>
+                <div class="skill-star" id="skill-closing" aria-checked="false">★<span>Conclusion</span></div>
+              </div>
             </div>
           </div>
         </div>
@@ -99,28 +103,38 @@
                 <option value="7 ans">7 ans</option>
               </select>
             </div>
+
+            <div class="field">
+              <label for="energyType">Motorisation</label>
+              <select id="energyType">
+                <option value="essence_gpl">Essence / GPL</option>
+                <option value="diesel">Diesel</option>
+                <option value="hybrid">Hybride</option>
+                <option value="ev">Électrique</option>
+              </select>
+            </div>
           </div>
 
           <div id="chat">
             <div class="chat-empty" id="chatEmpty">
               Lance l’échange avec une première phrase vendeur.<br />
-              En mode démo, tu peux sortir quand tu veux. En mode évaluation, la cliente devra conclure.
+              En mode démo, tu peux sortir quand tu veux. En mode évaluation, la cliente devra conclure ou refuser clairement.
             </div>
           </div>
 
           <div class="chat-footer">
             <input id="input" placeholder="Votre réponse..." />
             <button class="btn btn-primary" id="sendBtn" onclick="send()">Envoyer</button>
-            <button class="btn btn-secondary" id="finishDemoBtn" onclick="finishDemo()">Terminer démo</button>
+            <button class="btn btn-secondary" id="finishDemoBtn" onclick="finishDemo()">Terminer la démo</button>
             <button class="btn btn-secondary" id="newDemoBtn" onclick="resetDemo()">Nouvelle démo</button>
           </div>
 
           <div id="endMessage" class="hidden">
-            <h3>Fin de simulation</h3>
-            <div class="sub" style="margin-bottom:10px;">
+            <h3 id="endTitle">Fin de simulation</h3>
+            <div class="sub" id="endSubtitle" style="margin-bottom:10px;">
               La discussion est terminée. Lance maintenant l’évaluation.
             </div>
-            <button class="btn btn-primary" onclick="evaluate()">Voir évaluation</button>
+            <button class="btn btn-primary" id="evalBtn" onclick="evaluate()">Voir évaluation</button>
           </div>
         </div>
       </section>
@@ -144,11 +158,11 @@
               <div class="price-grid">
                 <div class="price-card">
                   <div class="name">CEP</div>
-                  <div class="value" id="cepPrice">39€</div>
+                  <div class="value" id="cepPrice">29€ / mois</div>
                 </div>
                 <div class="price-card">
                   <div class="name">CEP+</div>
-                  <div class="value" id="ceppPrice">69€</div>
+                  <div class="value" id="ceppPrice">59€ / mois</div>
                 </div>
               </div>
             </div>
@@ -156,10 +170,8 @@
             <div class="help-section">
               <h4>Angle conseillé</h4>
               <ul class="help-list">
-                <li>Budget maîtrisé pendant 48 mois</li>
-                <li>Assistance 24/7</li>
-                <li>Extension de garantie si activable</li>
-                <li>CEP+ à pousser si usure / grosse facture</li>
+                <li id="helpRecommendation">CEP si client surtout sensible à l’entretien, CEP+ si besoin de couverture plus large.</li>
+                <li id="helpAngle">Budget maîtrisé, assistance 24/7, entretien dans le réseau, revente facilitée.</li>
               </ul>
             </div>
 
@@ -168,7 +180,7 @@
               <ul class="help-list">
                 <li>Faire une proposition claire</li>
                 <li>Demander une décision</li>
-                <li>En évaluation : pas de note sans accord/refus</li>
+                <li>En évaluation : pas de note solide sans vraie tentative de conclusion</li>
               </ul>
             </div>
           </div>
